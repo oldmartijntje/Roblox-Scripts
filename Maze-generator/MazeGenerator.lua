@@ -23,13 +23,19 @@ local takenLocations = {"0_0_0", "-1_0_0", "1_0_0",
 	"0_0_-2", "-1_0_-2", "1_0_-2"}
 local generatorLoop = nil
 local setup = nil
+local typeCap = {
+	Biome1Convertor = {
+		cap = 3
+	}
+}
 
 local failSafeTile = {
 	rotation = 1,
 	template = {
 		templateName = "Failsafe1", entrances = {
 
-		}
+		},
+		biome = "Solid"
 	}
 }
 
@@ -40,7 +46,8 @@ local exitTemplates = {
 			{x=0, y=0, z=1, entranceType=0},
 		},
 		rarity = defaultRarity * 10,
-		isExit = true
+		isExit = true,
+		biome = "Solid"
 	}
 }
 
@@ -302,6 +309,19 @@ local function checkForStructureVariations(item, generationData, pos, coordinate
 	return variations
 end
 
+local function hasReachedCap(template)
+	if template.tileType ~= nil and typeCap[template.tileType] ~= nil then
+		if typeCap[template.tileType].spawned == nil then
+			typeCap[template.tileType].spawned = 0
+		elseif typeCap[template.tileType].cap ~= nil and typeCap[template.tileType].cap <= typeCap[template.tileType].spawned then
+			print(typeCap[template.tileType])
+			return true
+		end
+	end
+	return false
+end
+
+
 local function findCorrectSctructures(pos, generationData)
 	local coordinatesList = checkForEmptyNeighbours(pos)
 	local possibleTemplatesAndRotations = {}
@@ -316,6 +336,9 @@ local function findCorrectSctructures(pos, generationData)
 		end
 	end
 	for i, item in templates do
+		if hasReachedCap(item) then
+			continue
+		end
 		local rotationTemplates = checkForStructureVariations(item, generationData, pos, coordinatesList)
 		if #rotationTemplates > 0 then
 			for i, variation in rotationTemplates do
@@ -362,8 +385,6 @@ local function placeSctructure(template, positionString)
 	end
 end
 
-
-
 generatorLoop = function(sessionId)
 	wait()
 	if sessionId ~= activeSessionId then
@@ -380,7 +401,9 @@ generatorLoop = function(sessionId)
 			return
 		end
 	end
-	local key = getKeys(generationQueue)[1]
+	local keys = getKeys(generationQueue)
+	local randomIndex = math.random(1, #keys)  -- Generate a random index between 1 and the number of keys
+	local key = keys[randomIndex]  -- Select the key at the random index
 	tileMap[key] = true
 	local nextGeneration = generationQueue[key]
 	local options = findCorrectSctructures(key, nextGeneration)
@@ -394,6 +417,16 @@ generatorLoop = function(sessionId)
 			chosenOption = chosen
 		end
 	end
+	if biomeMap[chosenOption.template.biome] == nil then
+		biomeMap[chosenOption.template.biome] = {}
+	end
+	if chosenOption.template.tileType ~= nil and typeCap[chosenOption.template.tileType] ~= nil then
+		if typeCap[chosenOption.template.tileType].spawned == nil then
+			typeCap[chosenOption.template.tileType].spawned = 0
+		end
+		typeCap[chosenOption.template.tileType].spawned += 1
+	end
+	table.insert(biomeMap[chosenOption.template.biome], key)
 	addAllUnplacedCoordinates(chosenOption.template, key)
 	print(#getKeys(generationQueue), key, generationQueue)
 	placeSctructure(chosenOption, key)
@@ -402,7 +435,7 @@ generatorLoop = function(sessionId)
 		print("forceStop protocol, exiting...")
 	else
 	end
-		generatorLoop(sessionId)
+	generatorLoop(sessionId)
 end
 
 setup = function(maxLoopOverride)
@@ -421,7 +454,7 @@ setup = function(maxLoopOverride)
 
 	generationQueue["0_0_1"] = {parentPos="0_0_0", entranceType=0}
 	generatorLoop(activeSessionId)
-	print(tileMap)
+	print(tileMap, biomeMap)
 	game.ReplicatedStorage.DeployRopes:Fire()
 end
 

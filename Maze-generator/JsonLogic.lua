@@ -123,7 +123,7 @@ local module = {
 			{x=0, y=0, z=1, entranceType=0},
 		},
 		tileType = "Biome1Convertor",
-		rarity = 10,
+		rarity = 100,
 		biome = "Convertor"
 	},
 	{
