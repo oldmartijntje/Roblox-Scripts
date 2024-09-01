@@ -53,7 +53,7 @@ local exitTemplates = {
 		templateName = "ExitElevator1", entrances = {
 			{x=0, y=0, z=1, entranceType=1},
 		},
-		rarity = defaultRarity,
+		rarity = 1,
 		isExit = true,
 		biome = "Solid"
 	}
@@ -256,6 +256,7 @@ local function takeRandomItem(list)
 		local templates = {}
 		for _, item in ipairs(list) do
 			if item.template.isExit ~= nil or #item.template.entrances > 1 then
+				item.template.rarity = defaultRarity * 10
 				table.insert(templates, item)
 			end
 		end

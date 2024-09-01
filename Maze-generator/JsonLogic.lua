@@ -111,7 +111,7 @@ local module = {
 			{x=0, y=1, z=0, entranceType=1},
 			{x=0, y=-1, z=0, entranceType=0},
 		},
-		rarity = 50,
+		rarity = 25,
 		tileType = "Biome1to2Convertor",
 		biome = "Convertor"
 	},
@@ -120,7 +120,7 @@ local module = {
 			{x=0, y=1, z=0, entranceType=0},
 			{x=0, y=-1, z=0, entranceType=1},
 		},
-		rarity = 50,
+		rarity = 35,
 		tileType = "Biome1to2Convertor",
 		biome = "Convertor"
 	},
@@ -142,7 +142,7 @@ local module = {
 			{x=0, y=0, z=1, entranceType=1},
 			{x=0, y=-1, z=0, entranceType=1},
 		},
-		rarity = 15,
+		rarity = 5,
 		biome = "HotelRooms"
 	},
 	{
@@ -153,7 +153,7 @@ local module = {
 			{x=0, y=0, z=1, entranceType=1},
 			{x=0, y=1, z=0, entranceType=1},
 		},
-		rarity = 15,
+		rarity = 5,
 		biome = "HotelRooms"
 	},
 	{
