@@ -17,9 +17,12 @@ local tileMap = {}
 local mustSpreadLoops = 10
 local minimumLoops = 25
 local activeSessionId = 0
+local biomeMap = {}
 local takenLocations = {"0_0_0", "-1_0_0", "1_0_0",
-"0_0_-1", "-1_0_-1", "1_0_-1",
-"0_0_-2", "-1_0_-2", "1_0_-2"}
+	"0_0_-1", "-1_0_-1", "1_0_-1",
+	"0_0_-2", "-1_0_-2", "1_0_-2"}
+local generatorLoop = nil
+local setup = nil
 
 local failSafeTile = {
 	rotation = 1,
@@ -140,7 +143,7 @@ local function addAllUnplacedCoordinates(template, positionString)
 		if tileMap[coordinateString] == nil then
 			generationQueue[coordinateString] = {parentPos=positionString, entranceType=entrance.entranceType}
 		end
-		
+
 	end
 end
 
@@ -156,7 +159,14 @@ local function checkForEmptyNeighbours(coordinateString: string)
 end
 
 local function rotateTemplateEntrances(template, angle) 
-	local newTemplate = {templateName = template.templateName, rarity= template.rarity, isExit = template.isExit, entrances = {}}
+	local newTemplate = {
+		templateName = template.templateName, 
+		rarity= template.rarity, 
+		isExit = template.isExit, 
+		entrances = {},
+		biome = template.biome,
+		tileType = template.tileType
+	}
 	for i, entrance in template.entrances do
 		local x, y, z = entrance.x, entrance.y, entrance.z
 		local newX, newY, newZ = rotateCoordinates(x, y, z, angle)
@@ -169,9 +179,9 @@ local function rotateTemplateEntrances(template, angle)
 		table.insert(newTemplate.entrances,location )
 	end
 	return newTemplate
-	
+
 end
-	
+
 local function checkStructureRotations(generationData, template, pos)
 	local rotations = {}
 	local xp, yp, zp = splitPosString(generationData.parentPos)
@@ -190,7 +200,7 @@ local function checkStructureRotations(generationData, template, pos)
 		end
 	end
 	return rotations
-	
+
 end
 
 -- Function to select a random item based on rarity
@@ -232,8 +242,8 @@ local function takeRandomItem(list)
 		for _, item in ipairs(list) do
 			if item.template.isExit ~= nil or #item.template.entrances > 1 then
 				table.insert(templates, item)
-				end
 			end
+		end
 		return selectItemByRarity(templates)
 	end
 	if loops > maxLoops then
@@ -262,7 +272,7 @@ local function takeRandomItem(list)
 				end
 			end
 			return selectItemByRarity(notLowestTemplate)
-			
+
 		end
 	end
 	-- Get a random index from 1 to the length of the list
@@ -315,8 +325,8 @@ local function findCorrectSctructures(pos, generationData)
 		--table.insert(, item)
 	end
 	return possibleTemplatesAndRotations
-	
-	
+
+
 end
 
 local function placeSctructure(template, positionString)
@@ -337,12 +347,12 @@ local function placeSctructure(template, positionString)
 	local clonedStructure = game.Workspace.Structures:FindFirstChild(template.template["templateName"]):Clone()
 	clonedStructure.Parent = game.Workspace.Level
 	clonedStructure:PivotTo(CFrame.new(x * sizingMultiplier.x + offset.x, y * sizingMultiplier.y+ offset.y, z * sizingMultiplier.z+ offset.z))
-	
+
 	--local rotation = CFrame.Angles(0, math.rad(360 / (template.rotation + 1)), 0)
 	local rotation = CFrame.Angles(0, math.rad(90 * (template.rotation)), 0):Inverse()
 	local modelCFrame = clonedStructure:GetPivot()
 	clonedStructure:PivotTo(modelCFrame * rotation)
-	
+
 	if clonedStructure:FindFirstChild("Optional") then
 		local randomNum = math.random(1, 100)  -- Generates a number between 1 and 100
 
@@ -354,7 +364,7 @@ end
 
 
 
-local function generatorLoop(sessionId)
+generatorLoop = function(sessionId)
 	wait()
 	if sessionId ~= activeSessionId then
 		print('new loop started, exiting...')
@@ -363,17 +373,7 @@ local function generatorLoop(sessionId)
 	if #getKeys(generationQueue) == 0 then
 		if loops < minimumLoops then
 			print("too little, restarting...")
-			game.Workspace.Level:ClearAllChildren()
-			placedExit = false
-			loops = 0
-			generationQueue = {}
-			tileMap = {}
-			for i = 1, #takenLocations do
-				tileMap[takenLocations[i]] = true
-			end
-
-			generationQueue["0_0_1"] = {parentPos="0_0_0", entranceType=0}
-			generatorLoop(sessionId)
+			setup(maxLoops)
 			return
 		else 
 			print('complete, exiting...')
@@ -401,11 +401,11 @@ local function generatorLoop(sessionId)
 	if loops > maxLoops * 10 then
 		print("forceStop protocol, exiting...")
 	else
-		generatorLoop(sessionId)
 	end
+		generatorLoop(sessionId)
 end
 
-local function setup(maxLoopOverride)
+setup = function(maxLoopOverride)
 	maxLoopOverride = maxLoopOverride or defaultMaxLoops
 	maxLoops = maxLoopOverride
 	game.Workspace.Level:ClearAllChildren()
@@ -414,6 +414,7 @@ local function setup(maxLoopOverride)
 	loops = 0
 	generationQueue = {}
 	tileMap = {}
+	biomeMap = {}
 	for i = 1, #takenLocations do
 		tileMap[takenLocations[i]] = true
 	end
