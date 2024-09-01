@@ -103,8 +103,26 @@ local module = {
 			{x=0, y=1, z=0, entranceType=0},
 			{x=0, y=-1, z=0, entranceType=0},
 		},
-		rarity = 50,
+		rarity = 150,
 		biome = "HotelHallways"
+	},
+	{
+		templateName = "VerticalStraight1", entrances = {
+			{x=0, y=1, z=0, entranceType=1},
+			{x=0, y=-1, z=0, entranceType=0},
+		},
+		rarity = 50,
+		tileType = "Biome1to2Convertor",
+		biome = "Convertor"
+	},
+	{
+		templateName = "VerticalStraight1", entrances = {
+			{x=0, y=1, z=0, entranceType=0},
+			{x=0, y=-1, z=0, entranceType=1},
+		},
+		rarity = 50,
+		tileType = "Biome1to2Convertor",
+		biome = "Convertor"
 	},
 	{
 		templateName = "Open1", entrances = {
@@ -113,7 +131,29 @@ local module = {
 			{x=1, y=0, z=0, entranceType=1},
 			{x=0, y=0, z=1, entranceType=1},
 		},
-		rarity = 200,
+		rarity = 100,
+		biome = "HotelRooms"
+	},
+	{
+		templateName = "OpenDown1", entrances = {
+			{x=0, y=0, z=-1, entranceType=1},
+			{x=-1, y=0, z=0, entranceType=1},
+			{x=1, y=0, z=0, entranceType=1},
+			{x=0, y=0, z=1, entranceType=1},
+			{x=0, y=-1, z=0, entranceType=1},
+		},
+		rarity = 15,
+		biome = "HotelRooms"
+	},
+	{
+		templateName = "OpenUp1", entrances = {
+			{x=0, y=0, z=-1, entranceType=1},
+			{x=-1, y=0, z=0, entranceType=1},
+			{x=1, y=0, z=0, entranceType=1},
+			{x=0, y=0, z=1, entranceType=1},
+			{x=0, y=1, z=0, entranceType=1},
+		},
+		rarity = 15,
 		biome = "HotelRooms"
 	},
 	{
@@ -122,8 +162,8 @@ local module = {
 			{x=-1, y=0, z=0, entranceType=1},
 			{x=0, y=0, z=1, entranceType=0},
 		},
-		tileType = "Biome1Convertor",
-		rarity = 100,
+		tileType = "Biome1to2Convertor",
+		rarity = 15,
 		biome = "Convertor"
 	},
 	{
