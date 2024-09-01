@@ -6,7 +6,7 @@ local module = {
 			{x=0, y=0, z=-1, entranceType=0},
 		},
 		rarity=200,
-        biome = "HotelHallways"
+		biome = "HotelHallways"
 	},
 	{
 		templateName = "Straight2", entrances = {
@@ -14,63 +14,63 @@ local module = {
 			{x=0, y=0, z=-1, entranceType=0},
 		},
 		rarity = 10,
-        biome = "HotelHallways"
+		biome = "HotelHallways"
 	},
 	{
 		templateName = "Up1", entrances = {
 			{x=0, y=0, z=1, entranceType=0},
 			{x=0, y=1, z=0, entranceType=0},
 		},
-        biome = "HotelHallways"
+		biome = "HotelHallways"
 	},
 	{
 		templateName = "Down1", entrances = {
 			{x=0, y=0, z=1, entranceType=0},
 			{x=0, y=-1, z=0, entranceType=0},
 		},
-        biome = "HotelHallways"
+		biome = "HotelHallways"
 	},
 	{
 		templateName = "Stop1", entrances = {
 			{x=0, y=0, z=1, entranceType=0},
 		},
 		rarity = 10,
-        biome = "HotelHallways"
+		biome = "HotelHallways"
 	},
 	{
 		templateName = "Stop2", entrances = {
 			{x=0, y=0, z=1, entranceType=0},
 		},
 		rarity = 1,
-        biome = "HotelHallways"
+		biome = "HotelHallways"
 	},
 	{
 		templateName = "Stop3", entrances = {
 			{x=0, y=0, z=1, entranceType=0},
 		},
 		rarity = 44,
-        biome = "HotelHallways"
+		biome = "HotelHallways"
 	},
 	{
 		templateName = "Stop4", entrances = {
 			{x=0, y=0, z=1, entranceType=0},
 		},
 		rarity = 23,
-        biome = "HotelHallways"
+		biome = "HotelHallways"
 	},
 	{
 		templateName = "Stop5", entrances = {
 			{x=0, y=0, z=1, entranceType=0},
 		},
 		rarity = 18,
-        biome = "HotelHallways"
+		biome = "HotelHallways"
 	},
 	{
 		templateName = "Stop6", entrances = {
 			{x=0, y=0, z=1, entranceType=0},
 		},
 		rarity = 23,
-        biome = "HotelHallways"
+		biome = "HotelHallways"
 	},
 	{
 		templateName = "TSplit1", entrances = {
@@ -79,7 +79,7 @@ local module = {
 			{x=0, y=0, z=1, entranceType=0},
 		},
 		rarity=200,
-        biome = "HotelHallways"
+		biome = "HotelHallways"
 	},
 	{
 		templateName = "Cross1", entrances = {
@@ -88,7 +88,7 @@ local module = {
 			{x=1, y=0, z=0, entranceType=0},
 			{x=0, y=0, z=1, entranceType=0},
 		},
-        biome = "HotelHallways"
+		biome = "HotelHallways"
 	},
 	{
 		templateName = "Corner1", entrances = {
@@ -96,7 +96,7 @@ local module = {
 			{x=0, y=0, z=1, entranceType=0},
 		},
 		rarity=150,
-        biome = "HotelHallways"
+		biome = "HotelHallways"
 	},
 	{
 		templateName = "VerticalStraight1", entrances = {
@@ -104,7 +104,7 @@ local module = {
 			{x=0, y=-1, z=0, entranceType=0},
 		},
 		rarity = 50,
-        biome = "HotelHallways"
+		biome = "HotelHallways"
 	},
 	{
 		templateName = "Open1", entrances = {
@@ -114,7 +114,7 @@ local module = {
 			{x=0, y=0, z=1, entranceType=1},
 		},
 		rarity = 200,
-        biome = "HotelRooms"
+		biome = "HotelRooms"
 	},
 	{
 		templateName = "ToOpenTSplit1", entrances = {
@@ -122,16 +122,16 @@ local module = {
 			{x=-1, y=0, z=0, entranceType=1},
 			{x=0, y=0, z=1, entranceType=0},
 		},
-        tileType = "Biome1Convertor",
+		tileType = "Biome1Convertor",
 		rarity = 10,
-        biome = "Convertor"
+		biome = "Convertor"
 	},
 	{
 		templateName = "OpenCorner1", entrances = {
 			{x=-1, y=0, z=0, entranceType=1},
 			{x=0, y=0, z=1, entranceType=1},
 		},
-        biome = "HotelRooms"
+		biome = "HotelRooms"
 	},
 	{
 		templateName = "OpenStraight1", entrances = {
@@ -139,7 +139,7 @@ local module = {
 			{x=-1, y=0, z=0, entranceType=1},
 			{x=0, y=0, z=1, entranceType=1},
 		},
-        biome = "HotelRooms"
+		biome = "HotelRooms"
 	},
 	{
 		templateName = "OpenWallEdge1", entrances = {
@@ -149,16 +149,16 @@ local module = {
 			{x=0, y=0, z=1, entranceType=1},
 		},
 		rarity = 5,
-        biome = "HotelRooms"
+		biome = "HotelRooms"
 	},
 	{
 		templateName = "OpenWallEdge2", entrances = {
-			{x=0, y=0, z=-1, entranceType=1},
+			{x=0, y=0, z=-1, entranceType=2},
 			{x=-1, y=0, z=0, entranceType=1},
-			{x=1, y=0, z=0, entranceType=2},
+			{x=1, y=0, z=0, entranceType=1},
 			{x=0, y=0, z=1, entranceType=1},
 		},
-        biome = "HotelRooms"
+		biome = "HotelRooms"
 	},
 	{
 		templateName = "OpenWall1", entrances = {
@@ -168,7 +168,7 @@ local module = {
 			{x=0, y=0, z=1, entranceType=2},
 		},
 		rarity = 50,
-        biome = "HotelRooms"
+		biome = "HotelRooms"
 	},
 	{
 		templateName = "OpenWall2", entrances = {
@@ -177,7 +177,16 @@ local module = {
 			{x=1, y=0, z=0, entranceType=1},
 			{x=0, y=0, z=1, entranceType=2},
 		},
-        biome = "HotelRooms"
+		biome = "HotelRooms"
+	},
+	{
+		templateName = "OpenWallCorner1", entrances = {
+			{x=0, y=0, z=-1, entranceType=1},
+			{x=-1, y=0, z=0, entranceType=1},
+			{x=1, y=0, z=0, entranceType=2},
+			{x=0, y=0, z=1, entranceType=2},
+		},
+		biome = "HotelRooms"
 	},
 
 }
