@@ -13,11 +13,14 @@ local defaultMaxLoops = 1000
 local maxLoops = 100
 local loops = 0
 local generationQueue = {}
+local generationStatus = "Generating..."
+local priorityQueue = {}
 local tileMap = {}
 local mustSpreadLoops = 10
 local minimumLoops = 25
 local activeSessionId = 0
 local biomeMap = {}
+local lastPercentagePartCalculation = nil
 local takenLocations = {"0_0_0", "-1_0_0", "1_0_0",
 	"0_0_-1", "-1_0_-1", "1_0_-1",
 	"0_0_-2", "-1_0_-2", "1_0_-2"}
@@ -27,9 +30,9 @@ local typeCap = {
 	HallwaysToRoomsConvertor = {
 		cap = 5
 	},
-    RoomsToCaveConvertor = {
-        cap = 3
-    }
+	RoomsToCaveConvertor = {
+		cap = 3
+	}
 }
 
 local failSafeTile = {
@@ -60,7 +63,7 @@ local exitTemplates = {
 		isExit = true,
 		biome = "Solid"
 	},
-    {
+	{
 		templateName = "ExitElevator1", entrances = {
 			{x=0, y=0, z=1, entranceType=3},
 		},
@@ -168,6 +171,9 @@ local function addAllUnplacedCoordinates(template, positionString)
 		local coordinateString = tempX.."_"..tempY.."_"..tempZ
 		if tileMap[coordinateString] == nil then
 			generationQueue[coordinateString] = {parentPos=positionString, entranceType=entrance.entranceType}
+			if entrance.priority ~= nil then
+				priorityQueue[coordinateString] = {parentPos=positionString, entranceType=entrance.entranceType}
+			end
 		end
 
 	end
@@ -200,7 +206,8 @@ local function rotateTemplateEntrances(template, angle)
 			x= newX,
 			y= newY,
 			z= newZ,
-			entranceType= entrance.entranceType
+			entranceType= entrance.entranceType,
+			priority = entrance.priority
 		}
 		table.insert(newTemplate.entrances,location )
 	end
@@ -334,7 +341,6 @@ local function hasReachedCap(template)
 		if typeCap[template.tileType].spawned == nil then
 			typeCap[template.tileType].spawned = 0
 		elseif typeCap[template.tileType].cap ~= nil and typeCap[template.tileType].cap <= typeCap[template.tileType].spawned then
-			print(typeCap[template.tileType])
 			return true
 		end
 	end
@@ -421,7 +427,12 @@ generatorLoop = function(sessionId)
 			return
 		end
 	end
-	local keys = getKeys(generationQueue)
+	local keys = nil
+	if #getKeys(priorityQueue) > 0 then
+		keys = getKeys(priorityQueue)
+	else 
+		keys = getKeys(generationQueue)
+	end
 	local randomIndex = math.random(1, #keys)  -- Generate a random index between 1 and the number of keys
 	local key = keys[randomIndex]  -- Select the key at the random index
 	tileMap[key] = true
@@ -429,6 +440,7 @@ generatorLoop = function(sessionId)
 	local options = findCorrectSctructures(key, nextGeneration)
 	local chosenOption = failSafeTile
 	generationQueue[key] = nil
+	priorityQueue[key] = nil
 	if #options == 0 then
 		-- use the default failsafe tile
 	else 
@@ -449,6 +461,19 @@ generatorLoop = function(sessionId)
 	table.insert(biomeMap[chosenOption.template.biome], key)
 	addAllUnplacedCoordinates(chosenOption.template, key)
 	print(#getKeys(generationQueue), key, generationQueue)
+    if loops > maxLoops then
+        generationStatus = "Fixing open ends..."
+    end
+	local percentage = loops / (maxLoops * 1.25) * 100
+	if percentage >= 80 then
+		if lastPercentagePartCalculation == nil then
+			lastPercentagePartCalculation = (#getKeys(generationQueue) * 1.1)
+			percentage = 80
+		else
+			percentage = 79.98 + (20 * (lastPercentagePartCalculation - #getKeys(generationQueue)) / lastPercentagePartCalculation)
+		end
+	end
+	game.Workspace.Barrier.Label.TextLabel.Text = "Please wait while the maze is loading! (±"..math.floor(percentage *100) / 100 .."%)"
 	placeSctructure(chosenOption, key)
 	loops += 1
 	if loops > maxLoops * 10 then
@@ -459,6 +484,8 @@ generatorLoop = function(sessionId)
 end
 
 setup = function(maxLoopOverride)
+	lastPercentagePartCalculation = nil
+	game.ReplicatedStorage.ReloadMap:Fire()
 	maxLoopOverride = maxLoopOverride or defaultMaxLoops
 	maxLoops = maxLoopOverride
 	game.Workspace.Level:ClearAllChildren()
@@ -466,6 +493,9 @@ setup = function(maxLoopOverride)
 	activeSessionId += 1
 	loops = 0
 	generationQueue = {}
+    generationStatus = "Generating..."
+	priorityQueue = {}
+	lastPercentagePartCalculation = nil
 	tileMap = {}
 	biomeMap = {}
 	for i = 1, #takenLocations do
@@ -475,7 +505,7 @@ setup = function(maxLoopOverride)
 	generationQueue["0_0_1"] = {parentPos="0_0_0", entranceType=0}
 	generatorLoop(activeSessionId)
 	print(tileMap, biomeMap)
-	game.ReplicatedStorage.DeployRopes:Fire()
+	game.ReplicatedStorage.FinishedLoadingMaze:Fire()
 end
 
 game.ReplicatedStorage.Debug.ReloadMap.OnServerEvent:Connect(function(plr)

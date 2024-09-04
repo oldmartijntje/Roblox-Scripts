@@ -232,19 +232,19 @@ local module = {
 		templateName = "ToCave1", entrances = {
 			{x=0, y=0, z=-1, entranceType=1},
 			{x=-1, y=0, z=0, entranceType=1},
-			{x=1, y=0, z=0, entranceType=3},
+			{x=1, y=0, z=0, entranceType=3, priority = true},
 			{x=0, y=0, z=1, entranceType=1},
 		},
 		tileType = "RoomsToCaveConvertor",
 		rarity = 15,
-		biome = "Convertor"
+		biome = "Convertor",
 	},
     {
 		templateName = "StraightCave1", entrances = {
-			{x=-1, y=0, z=0, entranceType=3},
-			{x=1, y=0, z=0, entranceType=3},
+			{x=-1, y=0, z=0, entranceType=3, priority = true},
+			{x=1, y=0, z=0, entranceType=3, priority = true},
 		},
-		rarity = 125,
+		rarity = 325,
 		biome = "Cave"
 	},
     {
@@ -275,8 +275,8 @@ local module = {
 	},
     {
 		templateName = "CornerCave1", entrances = {
-			{x=0, y=0, z=1, entranceType=3},
-			{x=-1, y=0, z=0, entranceType=3},
+			{x=0, y=0, z=1, entranceType=3, priority = true},
+			{x=-1, y=0, z=0, entranceType=3, priority = true},
 		},
 		rarity = 225,
 		biome = "Cave"
