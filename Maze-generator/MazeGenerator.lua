@@ -1,5 +1,5 @@
 -- ServerScript
-local admins = {1860710799, 529495773}
+local admins = {1860710799, 529495773, 460580273}
 
 local percentageOptionalObjects = 33
 
