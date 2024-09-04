@@ -24,9 +24,12 @@ local takenLocations = {"0_0_0", "-1_0_0", "1_0_0",
 local generatorLoop = nil
 local setup = nil
 local typeCap = {
-	Biome1to2Convertor = {
+	HallwaysToRoomsConvertor = {
 		cap = 5
-	}
+	},
+    RoomsToCaveConvertor = {
+        cap = 3
+    }
 }
 
 local failSafeTile = {
@@ -52,6 +55,14 @@ local exitTemplates = {
 	{
 		templateName = "ExitElevator1", entrances = {
 			{x=0, y=0, z=1, entranceType=1},
+		},
+		rarity = 1,
+		isExit = true,
+		biome = "Solid"
+	}
+    {
+		templateName = "ExitElevator1", entrances = {
+			{x=0, y=0, z=1, entranceType=3},
 		},
 		rarity = 1,
 		isExit = true,

@@ -112,7 +112,7 @@ local module = {
 			{x=0, y=-1, z=0, entranceType=0},
 		},
 		rarity = 25,
-		tileType = "Biome1to2Convertor",
+		tileType = "HallwaysToRoomsConvertor",
 		biome = "Convertor"
 	},
 	{
@@ -121,7 +121,7 @@ local module = {
 			{x=0, y=-1, z=0, entranceType=1},
 		},
 		rarity = 35,
-		tileType = "Biome1to2Convertor",
+		tileType = "HallwaysToRoomsConvertor",
 		biome = "Convertor"
 	},
 	{
@@ -162,7 +162,7 @@ local module = {
 			{x=-1, y=0, z=0, entranceType=1},
 			{x=0, y=0, z=1, entranceType=0},
 		},
-		tileType = "Biome1to2Convertor",
+		tileType = "HallwaysToRoomsConvertor",
 		rarity = 15,
 		biome = "Convertor"
 	},
@@ -227,6 +227,59 @@ local module = {
 			{x=0, y=0, z=1, entranceType=2},
 		},
 		biome = "HotelRooms"
+	},
+	{
+		templateName = "ToCave1", entrances = {
+			{x=0, y=0, z=-1, entranceType=1},
+			{x=-1, y=0, z=0, entranceType=1},
+			{x=1, y=0, z=0, entranceType=3},
+			{x=0, y=0, z=1, entranceType=1},
+		},
+		tileType = "RoomsToCaveConvertor",
+		rarity = 15,
+		biome = "Convertor"
+	},
+    {
+		templateName = "StraightCave1", entrances = {
+			{x=-1, y=0, z=0, entranceType=3},
+			{x=1, y=0, z=0, entranceType=3},
+		},
+		rarity = 125,
+		biome = "Cave"
+	},
+    {
+		templateName = "StopCave1", entrances = {
+			{x=0, y=0, z=-1, entranceType=3},
+		},
+		rarity = 30,
+		biome = "Cave"
+	},
+    {
+		templateName = "OpenCave1", entrances = {
+			{x=0, y=0, z=-1, entranceType=3},
+			{x=0, y=0, z=1, entranceType=3},
+			{x=1, y=0, z=0, entranceType=3},
+			{x=-1, y=0, z=0, entranceType=3},
+		},
+		rarity = 69,
+		biome = "Cave"
+	},
+    {
+		templateName = "TSplitCave1", entrances = {
+			{x=0, y=0, z=-1, entranceType=3},
+			{x=0, y=0, z=1, entranceType=3},
+			{x=-1, y=0, z=0, entranceType=3},
+		},
+		rarity = 175,
+		biome = "Cave"
+	},
+    {
+		templateName = "CornerCave1", entrances = {
+			{x=0, y=0, z=1, entranceType=3},
+			{x=-1, y=0, z=0, entranceType=3},
+		},
+		rarity = 225,
+		biome = "Cave"
 	},
 
 }
